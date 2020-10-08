@@ -1,0 +1,15 @@
+# IDE
+.vscode
+
+# secret
+.env
+
+# build
+build
+
+# modules
+node_modules
+
+# log
+logs
+*.log*

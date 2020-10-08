@@ -1,0 +1,27 @@
+{
+  "name": "junctionx-seoul-hackathon",
+  "version": "1.0.0",
+  "description": "Junction X Seoul 2020 Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "start:monitor": "nodemon --exec babel-node src/index.js",
+    "build": "babel src -d build"
+  },
+  "author": "slowquery <slowquery678@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0",
+    "koa-router": "^9.4.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5"
+  }
+}
