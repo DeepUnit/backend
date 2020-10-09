@@ -1,6 +1,6 @@
 import { UserModel } from '../../model';
 import { generateRandom, signJwt } from '../../lib/Util';
-import { ERROR_EXIST_EMAIL } from '../../lib/Constant';
+import { ERROR_USER_NOT_FOUND } from '../../lib/Constant';
 
 const userTokenCreator = (User, refreshToken) => {
   const tokenResponse = {
@@ -15,8 +15,16 @@ const userTokenCreator = (User, refreshToken) => {
 };
 
 export const getUser = async(ctx) => {
-  ctx.body = 'GET_USERS';
-  return;
+  const { _id } = ctx.jwt;
+
+  const result = await UserModel.findOne({ _id });
+  
+  if(!result) {
+    return ctx.app.emit('error', ERROR_USER_NOT_FOUND, ctx);
+  }
+
+  ctx.status = 200;
+  ctx.body = result;
 };
 
 export const oauthRegisterOrLogin = async(ctx) => {
