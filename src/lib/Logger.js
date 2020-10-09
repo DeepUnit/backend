@@ -22,6 +22,7 @@ export default class Logger {
           json: true,
           maxFiles: 3,
           colorize: false,
+          handleExceptions: true,
         }),
         new winstonRotate({
           level: 'error',
@@ -30,6 +31,7 @@ export default class Logger {
           json: true,
           maxFiles: 3,
           colorize: false,
+          handleExceptions: true,
         }),
       ],
     });
