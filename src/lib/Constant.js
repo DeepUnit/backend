@@ -4,5 +4,6 @@ dotenv.config();
 
 export const {
   HTTP_PORT,
-  HTTP_HOST
+  HTTP_HOST,
+  MONGO_URI
 } = process.env;

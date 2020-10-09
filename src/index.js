@@ -1,4 +1,7 @@
 import Koa from 'koa';
+import KoaBody from 'koa-body';
+import Cors from '@koa/cors';
+import Database from './lib/Database';
 import Logger from './lib/Logger';
 import LoadRouter from './router';
 import { HTTP_HOST, HTTP_PORT } from './lib/Constant';
@@ -6,8 +9,12 @@ import { HTTP_HOST, HTTP_PORT } from './lib/Constant';
 const logger = Logger.createLogger('HTTP-BIND');
 
 const app = new Koa();
+const db = new Database();
+db.init();
 
-app.use(async(ctx, next) => {
+app.use(KoaBody());
+app.use(Cors());
+app.use(async(ctx, next) => {  
   await next();
   const responseTime = ctx.response.get('X-Response-Time');
   logger.info(`[${ctx.method}] ${ctx.url} - ${responseTime}`);
