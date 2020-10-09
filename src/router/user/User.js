@@ -1,38 +1,45 @@
 import { UserModel } from '../../model';
-import { generatePassword, generateRandom, signJwt } from '../../lib/Util';
+import { generateRandom, signJwt } from '../../lib/Util';
 import { ERROR_EXIST_EMAIL } from '../../lib/Constant';
+
+const userTokenCreator = (User, refreshToken) => {
+  const tokenResponse = {
+    accessToken: '',
+    refreshToken: ''
+  };
+
+  tokenResponse.accessToken = signJwt({ _id: User._id, email: User.email, createdAt: User.createdAt });
+  tokenResponse.refreshToken = refreshToken || generateRandom(32);
+  
+  return tokenResponse;
+};
 
 export const getUser = async(ctx) => {
   ctx.body = 'GET_USERS';
   return;
 };
 
-export const addUser = async(ctx) => {
-  const { email, password } = ctx.request.body;
+export const oauthRegisterOrLogin = async(ctx) => {
+  const { email, oauthId, registrationType } = ctx.request.body;
 
-  const isExistEmail = await UserModel.countDocuments({ email });
+  let refreshToken;
+  let User = await UserModel.findOne({ email });
 
-  if(isExistEmail) {
-    return ctx.app.emit('error', ERROR_EXIST_EMAIL, ctx);
+  if(!User) {
+    refreshToken = generateRandom(32);
+    User = new UserModel({
+      email,
+      registrationType,
+      oauthId,
+      refreshToken,
+      createdAt: Date.now()
+    });
+  
+    await User.save();
+  } else {
+    refreshToken = User.refreshToken;
   }
 
-  const refreshToken = generateRandom(32);
-  const User = new UserModel({
-    email,
-    password: await generatePassword(password),
-    registrationType: 'LO',
-    oauthId: null,
-    refreshToken,
-    createdAt: Date.now()
-  });
-
-  await User.save();
-
-  const tokenResponse = {
-    accessToken: signJwt({ _id: User._id, email: User.email, createdAt: User.createdAt }),
-    refreshToken,
-  };
-
   ctx.status = 200;
-  ctx.body = tokenResponse;
+  ctx.body = userTokenCreator(User, refreshToken);
 };
