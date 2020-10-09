@@ -14,8 +14,13 @@ db.init();
 
 app.use(KoaBody());
 app.use(Cors());
-app.use(async(ctx, next) => {  
-  await next();
+app.use(async(ctx, next) => {
+  try {
+    await next();
+  } catch(err) {
+    ctx.status = 500;
+    ctx.body = err.message;
+  }
   const responseTime = ctx.response.get('X-Response-Time');
   logger.info(`[${ctx.method}] ${ctx.url} - ${responseTime}`);
 });
@@ -28,6 +33,11 @@ app.use(async(ctx, next) => {
 });
 
 app.use(LoadRouter.routes());
+
+app.on('error', (err, ctx) => {
+  ctx.status = err.status;
+  ctx.body = err;
+});
 
 app.listen(HTTP_PORT, HTTP_HOST, () => {
   logger.info(`${HTTP_HOST}:${HTTP_PORT} Bind Successfully`);

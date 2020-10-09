@@ -6,6 +6,7 @@ const User = new Schema({
   password: String,
   registrationType: String,
   oauthId: String,
+  refreshToken: String,
   createdAt: Date
 });
 

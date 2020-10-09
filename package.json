@@ -13,11 +13,14 @@
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@koa/cors": "^3.1.0",
+    "bcrypt": "^5.0.0",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-router": "^9.4.0",
     "mongoose": "^5.10.8",
+    "randomstring": "^1.1.5",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0"
   },

@@ -1,6 +1,6 @@
 import Mongoose from 'mongoose';
 import Logger from './Logger';
-import { MONGO_URI } from './Constant';
+import { MONGO_URI, MONGO_MAX_POOLSIZE } from './Constant';
 
 const logger = Logger.createLogger('MONGO');
 
@@ -15,6 +15,7 @@ export default class MongoDBManager {
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true,
+      poolSize: MONGO_MAX_POOLSIZE,
     });
     logger.info(`'${MONGO_URI.split('/')[3]}' Mongo Connection Successfully`);
   }
