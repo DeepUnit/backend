@@ -3,6 +3,7 @@ import { FACEBOOK_TOKEN, RAKUTEN_API_KEY, ERROR_HTTP_REQUEST, ERROR_BODY_PARAMET
 
 const facebookEndpoint = 'https://graph.facebook.com/v8.0';
 const instagramEndpoint = 'https://hashtagy-generate-hashtags.p.rapidapi.com/v1';
+const playstoreEndpoint = 'https://gplaystore.p.rapidapi.com';
 const yyyymmddRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 
 export const facebookConnect = async(ctx) => {
@@ -47,4 +48,19 @@ export const instagramTags = async(ctx) => {
 
   ctx.status = 200;
   ctx.body = getTags.data.data.hashtags;
+};
+
+export const getPlaystoreList = async(ctx) => {
+  const getList = await requestClient({
+    method: 'GET',
+    url: `${playstoreEndpoint}/topGames/GAME_ACTION`,
+    headers: {
+      'X-RapidAPI-Host': 'gplaystore.p.rapidapi.com',
+      'X-RapidAPI-Key': RAKUTEN_API_KEY,
+      'useQueryString': true
+    }
+  });
+
+  ctx.status = 200;
+  ctx.body = getList.data;
 };
