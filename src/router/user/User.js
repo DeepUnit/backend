@@ -28,7 +28,7 @@ export const getUser = async(ctx) => {
 };
 
 export const oauthRegisterOrLogin = async(ctx) => {
-  const { email, registrationType } = ctx.request.body;
+  const { email, registrationType, ad_id } = ctx.request.body;
 
   let refreshToken;
   let User = await UserModel.findOne({ email });
@@ -39,6 +39,7 @@ export const oauthRegisterOrLogin = async(ctx) => {
       email,
       registrationType,
       refreshToken,
+      ad_id,
       createdAt: Date.now()
     });
   
