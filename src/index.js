@@ -23,7 +23,7 @@ app.use(async(ctx, next) => {
     ctx.body = err.message;
   }
   const responseTime = ctx.response.get('X-Response-Time');
-  logger.info(`[${ctx.method}] ${ctx.url} - ${responseTime}`);
+  logger.info(`[${ctx.method}] ${ctx.url} - ${ctx.status} - ${responseTime}`);
 });
 
 app.use(async(ctx, next) => {
