@@ -9,6 +9,7 @@ export const {
   MONGO_MAX_POOLSIZE,
   JWT_SECRET,
   FACEBOOK_TOKEN,
+  RAKUTEN_API_KEY,
 } = process.env;
 
 export const ERROR_EXIST_EMAIL = { status: 409, message: 'ERROR_EXIST_EMAIL' };
